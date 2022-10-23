@@ -32,11 +32,16 @@ console.log(
   `The robot has started! leave it running and come back here when you need to see some logs.`
 );
 console.log(`Started at: ${new Date().toLocaleString()}`);
+console.log(
+  `The first post will be made at: ${new Date(
+    Date.now() + 43200000
+  ).toLocaleString()}`
+);
 
 cron.schedule("0 */12 * * *", async () => {
   await run();
   console.log(`Finished at: ${new Date().toLocaleString()}`);
   console.log(
-    `Next run at: ${new Date(Date.now() + 43200000).toLocaleString()}`
+    `Next post at: ${new Date(Date.now() + 43200000).toLocaleString()}`
   );
 });
