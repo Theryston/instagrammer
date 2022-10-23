@@ -1,0 +1,25 @@
+{
+  "name": "instagrammer",
+  "version": "1.0.0",
+  "description": "This is a little robot that will make a post on your Instagram page every 12 hours.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "pnpm prisma:prepare && node src/index",
+    "prisma:prepare": "node scripts/prisma-prepare.js"
+  },
+  "keywords": [],
+  "author": "Theryston",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.5.0",
+    "axios": "^1.1.3",
+    "dotenv": "^16.0.3",
+    "instagram-private-api": "^1.45.3",
+    "loading-cli": "^1.1.0",
+    "node-cron": "^3.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^4.5.0"
+  }
+}
