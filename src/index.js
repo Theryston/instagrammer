@@ -28,8 +28,6 @@ const run = async () => {
   }
 };
 
-console.log(process.env.INSTAGRAM_USERNAME);
-
 console.log(
   `The robot has started! leave it running and come back here when you need to see some logs.`
 );
