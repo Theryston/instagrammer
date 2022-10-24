@@ -1,29 +1,53 @@
-import { IgApiClient } from "instagram-private-api";
-import fs from "fs";
+import axios from "axios";
 
-const ig = new IgApiClient();
-
-export async function postImage({ imagePath, title = "" }) {
-  if (!process.env.INSTAGRAM_USERNAME || !process.env.INSTAGRAM_PASSWORD) {
-    throw new Error(
-      "Please set the INSTAGRAM_USERNAME and INSTAGRAM_PASSWORD environment variables."
-    );
+export async function postImage({ imageUrl, title = "" }) {
+  if (!process.env.INSTAGRAM_TOKEN) {
+    throw new Error("INSTAGRAM_TOKEN is not set at .env");
   }
 
-  ig.state.generateDevice(process.env.INSTAGRAM_USERNAME);
-
-  await ig.simulate.preLoginFlow();
-  await ig.account.login(
-    process.env.INSTAGRAM_USERNAME,
-    process.env.INSTAGRAM_PASSWORD
+  const { data: facebookUser } = await axios.get(
+    `https://graph.facebook.com/v15.0/me/accounts`,
+    {
+      params: {
+        access_token: process.env.INSTAGRAM_TOKEN,
+      },
+    }
   );
 
-  const image = fs.readFileSync(imagePath);
+  const { data: instagramUser } = await axios.get(
+    `https://graph.facebook.com/v15.0/${facebookUser.data[0].id}`,
+    {
+      params: {
+        access_token: process.env.INSTAGRAM_TOKEN,
+        fields: "instagram_business_account",
+      },
+    }
+  );
 
-  const publishResult = await ig.publish.photo({
-    file: image,
-    caption: title,
-  });
+  const igAccountId = instagramUser.instagram_business_account.id;
 
-  return publishResult;
+  const { data: container } = await axios.post(
+    `https://graph.facebook.com/v15.0/${igAccountId}/media`,
+    {},
+    {
+      params: {
+        image_url: imageUrl,
+        caption: title,
+        access_token: process.env.INSTAGRAM_TOKEN,
+      },
+    }
+  );
+
+  const { data: publish } = await axios.post(
+    `https://graph.facebook.com/v15.0/${igAccountId}/media_publish`,
+    {},
+    {
+      params: {
+        creation_id: container.id,
+        access_token: process.env.INSTAGRAM_TOKEN,
+      },
+    }
+  );
+
+  return publish;
 }

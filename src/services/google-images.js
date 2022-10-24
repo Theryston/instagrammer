@@ -22,6 +22,7 @@ export async function searchImage({ term, page = 1 }) {
         cx: process.env.GOOGLE_SEARCH_ENGINE_ID,
         start: page,
         num: 10,
+        tbst: "iar:s",
       },
     }
   );

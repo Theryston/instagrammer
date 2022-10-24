@@ -9,7 +9,7 @@ export async function createPost() {
   try {
     image = await getImage();
     await postImage({
-      imagePath: image.path,
+      imageUrl: image.link,
       title: `${image.title}\n${process.env.DEFAULT_HASHTAGS || ""}`,
     });
     const createdImage = await prisma.images.create({
