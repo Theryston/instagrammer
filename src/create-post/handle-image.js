@@ -24,10 +24,7 @@ export async function handleImage({ imageUrl }) {
     `${Date.now()}.jpg`
   );
 
-  await sharp(rawImagePath)
-    .resize(1080, 1080)
-    .jpeg()
-    .toFile(distFileAbsolutePath);
+  await sharp(rawImagePath).jpeg().toFile(distFileAbsolutePath);
 
   fs.unlinkSync(rawImagePath);
 
