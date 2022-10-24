@@ -9,8 +9,9 @@ const spinner = new loading({
 
 config();
 
+let attempts = 0;
+
 const run = async () => {
-  let attempts = 0;
   try {
     spinner.start("Publishing post...");
     const image = await createPost();
