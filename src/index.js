@@ -15,6 +15,7 @@ const run = async () => {
   try {
     spinner.start("Publishing post...");
     const image = await createPost();
+    attempts = 0;
     spinner.succeed(`Published post: ${image.url}`);
   } catch (e) {
     spinner.fail(
