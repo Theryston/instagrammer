@@ -28,20 +28,32 @@ const run = async () => {
   }
 };
 
-console.log(
-  `The robot has started! leave it running and come back here when you need to see some logs.`
-);
-console.log(`Started at: ${new Date().toLocaleString()}`);
-console.log(
-  `The first post will be made at: ${new Date(
-    Date.now() + 43200000
-  ).toLocaleString()}`
-);
+const main = async () => {
+  if (!process.env.POST_EVERY_HOURS) {
+    console.log("No POST_EVERY_HOURS env var set. Running once.");
+    await run();
+    return;
+  }
 
-cron.schedule("0 */12 * * *", async () => {
-  await run();
-  console.log(`Finished at: ${new Date().toLocaleString()}`);
   console.log(
-    `Next post at: ${new Date(Date.now() + 43200000).toLocaleString()}`
+    `The robot has started! leave it running and come back here when you need to see some logs.`
   );
-});
+  console.log(`Started at: ${new Date().toLocaleString()}`);
+  console.log(
+    `The first post will be made at: ${new Date(
+      Date.now() + 1000 * 60 * 60 * process.env.POST_EVERY_HOURS
+    ).toLocaleString()}`
+  );
+
+  cron.schedule(`0 */${process.env.POST_EVERY_HOURS} * * *`, async () => {
+    await run();
+    console.log(`Finished at: ${new Date().toLocaleString()}`);
+    console.log(
+      `Next post at: ${new Date(
+        Date.now() + 1000 * 60 * 60 * process.env.POST_EVERY_HOURS
+      ).toLocaleString()}`
+    );
+  });
+};
+
+main();

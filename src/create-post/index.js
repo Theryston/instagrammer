@@ -10,7 +10,7 @@ export async function createPost() {
     image = await getImage();
     await postImage({
       imagePath: image.path,
-      title: `${image.title}\n#inteligenciaartificial #provedor #programadora #programador #engenhariadesoftware #cienciadacomputacao #computacao #desenvolvedor #tecnologiadainformação #programação #programacao #tirinhasss`,
+      title: `${image.title}\n${process.env.DEFAULT_HASHTAGS || ""}`,
     });
     const createdImage = await prisma.images.create({
       data: {
