@@ -1,6 +1,7 @@
 import { getImage } from "./get-image.js";
 import { postImage } from "./post-image.js";
 import { PrismaClient } from "@prisma/client";
+import { handleImage } from "./handle-image.js";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,9 @@ export async function createPost() {
   let image;
   try {
     image = await getImage();
+    image.link = await handleImage({
+      imageUrl: image.link,
+    });
     await postImage({
       imageUrl: image.link,
       title: `${image.title}\n${process.env.DEFAULT_HASHTAGS || ""}`,

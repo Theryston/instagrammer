@@ -29,9 +29,8 @@ export async function getImage() {
         image = images[i];
         break;
       }
-
-      page++;
     }
+    page++;
   }
 
   return image;
