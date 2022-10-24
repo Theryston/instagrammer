@@ -22,14 +22,16 @@ export async function createPost() {
     });
     return createdImage;
   } catch (e) {
-    await prisma.images.create({
-      data: {
-        mime: image.mime,
-        url: image.link,
-        title: image.title,
-        status: "ERROR",
-      },
-    });
+    if (image) {
+      await prisma.images.create({
+        data: {
+          mime: image.mime,
+          url: image.link,
+          title: image.title,
+          status: "ERROR",
+        },
+      });
+    }
     throw e;
   }
 }
