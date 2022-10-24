@@ -14,7 +14,7 @@ export async function createPost() {
     });
     await postImage({
       imageUrl: image.link,
-      title: `${image.title}\n${process.env.DEFAULT_HASHTAGS || ""}`,
+      title: process.env.DEFAULT_HASHTAGS || "",
     });
     const createdImage = await prisma.images.create({
       data: {
