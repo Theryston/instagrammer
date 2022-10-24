@@ -9,17 +9,18 @@ export async function createPost() {
   let image;
   try {
     image = await getImage();
-    image.link = await handleImage({
+    image.processedUrl = await handleImage({
       imageUrl: image.link,
     });
     await postImage({
-      imageUrl: image.link,
+      imageUrl: image.processedUrl,
       title: process.env.DEFAULT_HASHTAGS || "",
     });
     const createdImage = await prisma.images.create({
       data: {
         mime: image.mime,
-        url: image.link,
+        rawUrl: image.link,
+        url: image.processedUrl,
         title: image.title,
         status: "PUBLISHED",
       },
@@ -30,9 +31,10 @@ export async function createPost() {
       await prisma.images.create({
         data: {
           mime: image.mime,
-          url: image.link,
+          rawUrl: image.link,
           title: image.title,
           status: "ERROR",
+          url: image.processedUrl || "",
         },
       });
     }

@@ -16,6 +16,7 @@ model images {
   title     String
   mime      String
   url       String   @unique
+  rawUrl    String   @unique
   status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
