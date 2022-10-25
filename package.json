@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "pnpm prisma:prepare && node src/index",
+    "start": "node src/index",
     "prisma:prepare": "prisma generate && prisma db push"
   },
   "keywords": [],
