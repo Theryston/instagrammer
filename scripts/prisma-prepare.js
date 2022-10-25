@@ -1,17 +1,23 @@
-import { execSync } from "child_process";
-import loading from "loading-cli";
+import { exec } from "child_process";
+import { promisify } from "util";
 
-const spinner = new loading({
-  color: "yellow",
-});
+const execSync = promisify(exec);
+
+const spinner = createSpinner();
 
 const run = async () => {
   try {
-    spinner.start("Preparing the database...");
-    execSync("pnpm prisma generate && pnpm prisma db push");
-    spinner.succeed("Database ready!");
+    spinner.start({
+      text: "Preparing database...",
+    });
+    await execSync("pnpm prisma generate && pnpm prisma db push");
+    spinner.success({
+      text: "Database ready!",
+    });
   } catch (e) {
-    spinner.fail(`Error running prisma generate: ${e.message}`);
+    spinner.error({
+      text: `Error running prisma generate: ${e.message}`,
+    });
   }
 };
 
