@@ -2,9 +2,6 @@ import { createPost } from "./create-post/index.js";
 import { config } from "dotenv";
 import cron from "node-cron";
 import cronParser from "cron-parser";
-import { createSpinner } from "nanospinner";
-
-const spinner = createSpinner();
 
 config();
 
@@ -12,20 +9,16 @@ let attempts = 0;
 
 const run = async () => {
   try {
-    spinner.start({
-      text: "Publishing post...",
-    });
+    console.log(`Running at: ${new Date().toLocaleString()}`);
     const image = await createPost();
     attempts = 0;
-    spinner.success({
-      text: `Published post: ${image.url}`,
-    });
+    console.log(`Published post: ${image.url}`);
   } catch (e) {
-    spinner.error({
-      text: `Error publishing post: ${e.message} | ${
+    console.log(
+      `Error publishing post: ${e.message} | ${
         attempts < 5 ? "Retrying..." : "Giving up."
-      }`,
-    });
+      }`
+    );
     if (attempts < 5) {
       attempts++;
       await run();
