@@ -17,12 +17,10 @@ export async function searchImage({ term, page = 1 }) {
       params: {
         q: term,
         searchType: "image",
-        imgSize: "huge",
         key: process.env.GOOGLE_API_KEY,
         cx: process.env.GOOGLE_SEARCH_ENGINE_ID,
         start: page,
         num: 10,
-        tbst: "iar:s",
       },
     }
   );
