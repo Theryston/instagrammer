@@ -2,6 +2,7 @@ import { createPost } from "./create-post/index.js";
 import { config } from "dotenv";
 import cron from "node-cron";
 import loading from "loading-cli";
+import cronParser from "cron-parser";
 
 const spinner = new loading({
   color: "yellow",
@@ -37,24 +38,24 @@ const main = async () => {
     return;
   }
 
+  const cronExpression = `0 */${process.env.POST_EVERY_HOURS} * * *`;
+
+  const interval = cronParser.parseExpression(cronExpression);
+  let nextExecution = interval.next().toDate();
+
   console.log(
     `The robot has started! leave it running and come back here when you need to see some logs.`
   );
   console.log(`Started at: ${new Date().toLocaleString()}`);
   console.log(
-    `The first post will be made at: ${new Date(
-      Date.now() + 1000 * 60 * 60 * process.env.POST_EVERY_HOURS
-    ).toLocaleString()}`
+    `The first post will be made at: ${nextExecution.toLocaleString()}`
   );
 
-  cron.schedule(`0 */${process.env.POST_EVERY_HOURS} * * *`, async () => {
+  cron.schedule(cronExpression, async () => {
     await run();
+    nextExecution = interval.next().toDate();
     console.log(`Finished at: ${new Date().toLocaleString()}`);
-    console.log(
-      `Next post at: ${new Date(
-        Date.now() + 1000 * 60 * 60 * process.env.POST_EVERY_HOURS
-      ).toLocaleString()}`
-    );
+    console.log(`Next post at: ${nextExecution.toLocaleString()}`);
   });
 };
 
