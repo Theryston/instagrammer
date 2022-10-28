@@ -1,6 +1,7 @@
 import { getImage } from "./get-image.js";
 import { postImage } from "./post-image.js";
 import { PrismaClient } from "@prisma/client";
+import { handleImage } from "./handle-image.js";
 
 const prisma = new PrismaClient();
 
@@ -8,15 +9,17 @@ export async function createPost() {
   let image;
   try {
     image = await getImage();
+    image.processedUrl = await handleImage(image.link);
     await postImage({
-      imageUrl: image.link,
+      imageUrl: image.processedUrl,
       title: process.env.DEFAULT_HASHTAGS || "",
     });
+    console.log(`Creating image ${image.link} in database`);
     const createdImage = await prisma.images.create({
       data: {
         mime: image.mime,
         rawUrl: image.link,
-        url: image.link,
+        url: image.processedUrl,
         title: image.title,
         status: "PUBLISHED",
       },
@@ -30,7 +33,7 @@ export async function createPost() {
           rawUrl: image.link,
           title: image.title,
           status: "ERROR",
-          url: image.link,
+          url: image.processedUrl || "",
         },
       });
     }

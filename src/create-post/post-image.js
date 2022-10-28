@@ -5,6 +5,8 @@ export async function postImage({ imageUrl, title = "" }) {
     throw new Error("INSTAGRAM_TOKEN is not set at .env");
   }
 
+  console.log(`Posting image ${imageUrl} to Instagram`);
+
   const { data: facebookUser } = await axios.get(
     `https://graph.facebook.com/v15.0/me/accounts`,
     {

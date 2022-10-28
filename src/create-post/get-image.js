@@ -19,6 +19,7 @@ export async function getImage() {
     }
 
     for (let i = 0; i < images.length; i++) {
+      console.log(`Checking image: ${images[i].link}`);
       const imageAlreadyExists = await prisma.images.findFirst({
         where: {
           rawUrl: images[i].link,
@@ -27,6 +28,7 @@ export async function getImage() {
 
       if (!imageAlreadyExists) {
         image = images[i];
+        console.log(`Found image: ${image.link}`);
         break;
       }
     }
