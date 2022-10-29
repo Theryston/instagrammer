@@ -51,5 +51,18 @@ export async function postImage({ imageUrl, title = "" }) {
     }
   );
 
-  return publish;
+  const { data: post } = await axios.get(
+    `https://graph.facebook.com/v15.0/${publish.id}`,
+    {
+      params: {
+        access_token: process.env.INSTAGRAM_TOKEN,
+        fields: "id,permalink",
+      }
+    }
+  )
+
+  return {
+    id: post.id,
+    permalink: post.permalink,
+  };
 }

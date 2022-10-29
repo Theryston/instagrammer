@@ -6,7 +6,7 @@ import mime from "mime-types";
 import download from "image-downloader";
 import smartcrop from 'smartcrop-gm';
 import Gm from 'gm';
-import { uploadImage } from "../services/imgur.js";
+import { uploadImage } from "../services/image.js";
 
 const gm = Gm.subClass({ imageMagick: true })
 
@@ -25,8 +25,6 @@ export async function handleImage(url) {
 
   await cropImage({ path: rawImagePath, distFileAbsolutePath });
 
-
-  console.log(`Uploading image: ${distFileAbsolutePath}`);
   const link = await uploadImage({
     path: distFileAbsolutePath,
   });

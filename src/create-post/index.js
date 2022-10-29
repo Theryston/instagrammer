@@ -10,11 +10,11 @@ export async function createPost() {
   try {
     image = await getImage();
     image.processedUrl = await handleImage(image.link);
-    await postImage({
+    const post = await postImage({
       imageUrl: image.processedUrl,
       title: process.env.DEFAULT_HASHTAGS || "",
     });
-    console.log(`Creating image ${image.link} in database`);
+    console.log(`Creating image ${image.processedUrl} in database`);
     const createdImage = await prisma.images.create({
       data: {
         mime: image.mime,
@@ -24,7 +24,12 @@ export async function createPost() {
         status: "PUBLISHED",
       },
     });
-    return createdImage;
+    return {
+      instagramId: post.id,
+      instagramUrl: post.permalink,
+      id: createdImage.id,
+      url: createdImage.url,
+    };
   } catch (e) {
     if (image) {
       await prisma.images.create({

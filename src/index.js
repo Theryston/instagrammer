@@ -12,11 +12,10 @@ const run = async () => {
     console.log(`Running at: ${new Date().toLocaleString()}`);
     const image = await createPost();
     attempts = 0;
-    console.log(`Published post: ${image.url}`);
+    console.log(`Published post: ${image.instagramUrl}`);
   } catch (e) {
     console.log(
-      `Error publishing post: ${e.message} | ${
-        attempts < 5 ? "Retrying..." : "Giving up."
+      `Error publishing post: ${e.message} | ${attempts < 5 ? "Retrying..." : "Giving up."
       }`
     );
     if (attempts < 5) {
