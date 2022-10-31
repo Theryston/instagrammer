@@ -1,7 +1,7 @@
 {
   "name": "instagrammer",
   "version": "1.0.0",
-  "description": "This is a little robot that will make a post on your Instagram page every 12 hours.",
+  "description": "Who said that only humans can have Instagram pages? 😲",
   "main": "src/index.js",
   "type": "module",
   "scripts": {

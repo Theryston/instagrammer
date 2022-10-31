@@ -7,29 +7,8 @@ export async function postImage({ imageUrl, title = "" }) {
 
   console.log(`Posting image ${imageUrl} to Instagram`);
 
-  const { data: facebookUser } = await axios.get(
-    `https://graph.facebook.com/v15.0/me/accounts`,
-    {
-      params: {
-        access_token: process.env.INSTAGRAM_TOKEN,
-      },
-    }
-  );
-
-  const { data: instagramUser } = await axios.get(
-    `https://graph.facebook.com/v15.0/${facebookUser.data[0].id}`,
-    {
-      params: {
-        access_token: process.env.INSTAGRAM_TOKEN,
-        fields: "instagram_business_account",
-      },
-    }
-  );
-
-  const igAccountId = instagramUser.instagram_business_account.id;
-
   const { data: container } = await axios.post(
-    `https://graph.facebook.com/v15.0/${igAccountId}/media`,
+    `https://graph.facebook.com/v15.0/${process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID}/media`,
     {},
     {
       params: {
@@ -41,7 +20,7 @@ export async function postImage({ imageUrl, title = "" }) {
   );
 
   const { data: publish } = await axios.post(
-    `https://graph.facebook.com/v15.0/${igAccountId}/media_publish`,
+    `https://graph.facebook.com/v15.0/${process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID}/media_publish`,
     {},
     {
       params: {
