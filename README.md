@@ -41,20 +41,4 @@ code .
 touch .env
 ```
 
-### Configuring Meta For Developers
-
-Go to [https://developers.facebook.com/apps](https://developers.facebook.com/apps), log in with your facebook account if you don't already have one and click on the green button "Create Application", select the option "None", fill in the requested data in the form, click in "Create App" and click on "Sing Up" on Instagram Graph API card
-
-![create-app-home](https://xhr-server.herokuapp.com/files/1667237546681667656480525.png)
-
-![select-none](https://xhr-server.herokuapp.com/files/1667237681712578628047965.png)
-
-![create-app](https://xhr-server.herokuapp.com/files/1667237757498791673535656.png)
-
-![sing-up-graph-api](https://xhr-server.herokuapp.com/files/1667238036549955128748916.png)
-
-Ignore everything that appears on your screen from that point on, now we can start and generate our token, go to [https://developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer) select in "Meta App" the name of the app we just created , under "User or Page" select "User Token" (or Get User Access Token), under permissions click on "Add Permission" and select pages_show_list, instagram_basic, instagram_content_publish, pages_read_engagement
-
-Go to [https://business.facebook.com](https://business.facebook.com) click on the drop down in the upper left corner and click on "Create a business account", enter the name of your page, click on "Next", fill in the fields with your personal data (first name, last name...), click "Skip", "Skip" and "Confirm"
-
-Go to [https://www.instagram.com](https://www.instagram.com) and create a new account, then [https://www.instagram.com/accounts/edit/](https://www.instagram.com/accounts/edit/) change your account to a professional account, then [https://business.facebook.com/latest/settings/business_assets](https://business.facebook.com/latest/settings/business_assets) click on "Add Assets" select "Instagram Account" and select your instagram account
+Fill the `.env` file with the data in the `.env.example` file these are the initial data for the robot to be able to do its work, there are some API Keys and necessary tokens for the Instagram Graph API
