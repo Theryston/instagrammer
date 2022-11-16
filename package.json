@@ -1,0 +1,31 @@
+{
+  "name": "instagrammer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run:local": "serverless invoke local -f",
+    "sharp:prepare": "rm -rf node_modules/sharp && npm install --arch=x64 --platform=linux --target=12.16.3 sharp",
+    "database:prepare": "prisma generate && prisma db push",
+    "predeploy": "yarn sharp:prepare && yarn database:prepare",
+    "deploy": "serverless deploy --verbose --stage=prod",
+    "postdeploy": "rm -rf node_modules/sharp && rm -rf package-lock.json && yarn add sharp && yarn database:prepare",
+    "undeploy": "serverless remove --verbose --stage=prod"
+  },
+  "keywords": [],
+  "author": "Theryston",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "prisma": "^4.6.1",
+    "serverless-dotenv-plugin": "^4.0.2",
+    "serverless-plugin-typescript": "^2.1.4",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.6.1",
+    "axios": "1.1.3",
+    "sharp": "^0.31.2",
+    "smartcrop-sharp": "^2.0.6"
+  }
+}
