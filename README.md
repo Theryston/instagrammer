@@ -31,7 +31,7 @@ cd instagrammer
 Once you already have the project cloned, just install the dependencies, this in our case is done with yarn, just run the following command in the terminal:
 
 ```bash
-yarn i
+yarn
 ```
 
 Once this is done we can start the most interesting part, configure the environment variables, first open the project in your favorite code editor and in the root folder create a file called `.env` in Visual Studio Code the process will follow like this:
